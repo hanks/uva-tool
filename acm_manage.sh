@@ -496,8 +496,11 @@ detect_node_install()
     if [ $? -ne 0 ]
     then
         # auto install it
-        echo "Auto install node for your. You need to input your sudo password."
-        sudo apt-get install node
+        # echo "Auto install node for your. You need to input your sudo password."
+        # sudo apt-get install node
+        echo "Need lastest Node js installed in your computer."
+        echo "Please go to official site http://nodejs.org/ to download it."
+        exit 0
     fi
 }
 
