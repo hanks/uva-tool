@@ -493,10 +493,8 @@ select_compile_tool()
 detect_node_install()
 {
     which node > /dev/null 2>&1
-    if [ $? -eq 0 ]
+    if [ $? -ne 0 ]
     then
-        # do nothing
-    else
         # auto install it
         echo "Auto install node for your. You need to input your sudo password."
         sudo apt-get install node
