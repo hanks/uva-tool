@@ -1,5 +1,12 @@
 *.py[cod]
 
+# OS
+.DS_Store
+.DS_Store?
+
+# config
+*.ini
+
 # C extensions
 *.so
 
