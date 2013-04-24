@@ -5,7 +5,7 @@ A command-line tool for doing acm exercisese for uva website
 
 Test Shell Script for acm program.
 
-Uesage is:
+Usage is:
 =========
 - ./acm_manage.sh i questionID
 - ./acm_manage.sh r questionID
@@ -15,6 +15,7 @@ Uesage is:
 - ./acm_manage.sh help
 
 Main Function is:
+=================
 <pre>
 1.init acm directory and create source, test, expect files from website for you.
 2.run your code with your test data file, and check its correctness with your expect file.
@@ -23,26 +24,31 @@ Main Function is:
 </pre>
 
 Platform:
+=========
 <pre>
 Linux, Mac OSX, Unix
 </pre>
 
 Support Program Language:
+=========================
 <pre>
 C
 </pre>
 
 Author:
+=======
 <pre>
 Hanks
 </pre>
 
 Email:
+======
 <pre>
 zhouhan315[atgmaildotcom]
 </pre>
 
 Version:
+========
 <pre>
 1.0
 </pre>
