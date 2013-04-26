@@ -87,7 +87,7 @@ IFS="
 # init compiler command, default is clang, if no, use gcc
 COMPILE_COMMAND=
 DEBUG_OPTION="-g"
-OPTIMIZE_OPTION="-ansi" 
+OPTIMIZE_OPTION="-ansi -Wall" 
 DEBUG_TOOL="gdb"
 
 # acm workspace existed flag
