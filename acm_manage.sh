@@ -466,20 +466,38 @@ judge_result()
 {
     echo
     echo "Diff result is:"
-    git diff --no-index --color "$RESULT_FILE_PATH" "$EXPECT_FILE_PATH" > $DIFF_RESULT_FILE
-    # test whether diff file is empty
-    if test -s $DIFF_RESULT_FILE; then
-        # if no empty, means wrong
-        cat $DIFF_RESULT_FILE
-        echo "Wrong answer. Try again."
-    else
-        if [ $TIME_COST -le $ACCEPT_TIME ]; then
-            echo "Accept. Congratulations"
+
+    which git > /dev/null 2>&1
+    if [ $? -eq 0 ]
+    then
+        # if git is installed, use git diff
+        git diff --no-index --color "$RESULT_FILE_PATH" "$EXPECT_FILE_PATH" > $DIFF_RESULT_FILE
+        # test whether diff file is empty
+        if test -s $DIFF_RESULT_FILE; then
+            # if no empty, means wrong
+            cat $DIFF_RESULT_FILE
+            echo "Wrong answer. Try again."
         else
-            echo "Time limit exceeded. Cost time $TIME_COST > Accept time $ACCEPT_TIME milliseconds"
-        fi        
+            if [ $TIME_COST -le $ACCEPT_TIME ]; then
+                echo "Accept. Congratulations"
+            else
+                echo "Time limit exceeded. Cost time $TIME_COST > Accept time $ACCEPT_TIME milliseconds"
+            fi        
+        fi
+        rm $DIFF_RESULT_FILE
+    else
+        # if no , use diff
+        echo "You do not install git, if git installed, you will see a more beautiful diff result."
+        if diff "$RESULT_FILE_PATH" "$EXPECT_FILE_PATH"; then
+            if [ $TIME_COST -le $ACCEPT_TIME ]; then
+                echo "Accept. Congratulations"
+            else
+                echo "Time limit exceeded. Cost time $TIME_COST > Accept time $ACCEPT_TIME milliseconds"
+            fi
+        else
+            echo "Wrong answer. Try again."
+        fi
     fi
-    rm $DIFF_RESULT_FILE
 }
 
 debug_code()

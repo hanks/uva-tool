@@ -11,6 +11,7 @@ Usage is:
 - ./acm_manage.sh r questionID
 - ./acm_manage.sh d questionID
 - ./acm_manage.sh s questionID
+- ./acm_manage.sh s 
 - ./acm_manage.sh h
 - ./acm_manage.sh help
 
