@@ -69,6 +69,8 @@ SOURCE_CODE_PATH=
 EXPECT_FILE_PATH=
 # default executable file name
 DEFAILT_EXECUTABLE_FILE_NAME="a.out"
+# diff result file
+DIFF_RESULT_FILE="diff.txt"
 # gdb command temp file
 DEFAULT_DEBUG_COMMAND_FILE_NAME="gdb_cmd_temp"
 DEBUG_COMMAND_FILE_PATH=
@@ -464,15 +466,19 @@ judge_result()
 {
     echo
     echo "Diff result is:"
-    if diff "$RESULT_FILE_PATH" "$EXPECT_FILE_PATH"; then
+    git diff --no-index --color "$RESULT_FILE_PATH" "$EXPECT_FILE_PATH" > $DIFF_RESULT_FILE
+    # test whether diff file is empty
+    if test -s $DIFF_RESULT_FILE; then
+        cat $DIFF_RESULT_FILE
+        echo "Wrong answer. Try again."
+    else
         if [ $TIME_COST -le $ACCEPT_TIME ]; then
             echo "Accept. Congratulations"
         else
             echo "Time limit exceeded. Cost time $TIME_COST > Accept time $ACCEPT_TIME milliseconds"
-        fi
-    else
-        echo "Wrong answer. Try again."
+        fi        
     fi
+    rm $DIFF_RESULT_FILE
 }
 
 debug_code()
