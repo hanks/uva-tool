@@ -11,12 +11,14 @@
 #    ./acm_manage.sh s
 #    ./acm_manage.sh h
 #    ./acm_manage.sh help
+#    ./acm_manage.sh uninstall
 #
 # Main Function is:
 #    1. init acm directory and create source, test, expect files from website for you.
 #    2. run your code with your test data file, and check its correctness with your expect file.
 #    3. debug your code with your test data file.
 #    4. submit your code to uva website using uva-node and get the judge result
+#    5. uninstall uva-tool
 #
 # Platform:
 #    Linux, Mac OSX, Unix
@@ -107,6 +109,7 @@ SET_PATH=
 
 # use for submit
 UVA_KEY_FILE="$HOME/.ssh/uva-node.key"
+UVA_NODE_CONF_FILE="$HOME/.uva-node"
 UVA_ACCOUNT_NAME=
 UVA_ACCOUNT_PWD=
 UVA_NODE="$SCRIPT_DIRECTORY/uva-node"
@@ -179,7 +182,7 @@ set_script_to_path()
 print_help()
 {
     echo
-    echo "Usage: acm_manage.sh [i|r|d|s|h|help] questionID"
+    echo "Usage: acm_manage.sh [i|r|d|s|h|help|uninstall] questionID"
     echo "Like: acm_manage.sh i 101"
     echo "Options: These are optional argument"
     echo " i questinID: init acm directory, create directory, source, test file and expect file automatically for you."
@@ -187,7 +190,8 @@ print_help()
     echo " s questionID: submit your code to website, and get the judgement."
     echo " d questionID: start debug tool (like gdb, lldb) to debug your code."    
     echo " s: just fetch stat from uva."
-    echo " h|help: show help info."    
+    echo " h|help: show help info."
+    echo " uninstall: uninstall uva-tool."    
     echo
     echo "When you first run this shell, you should "
     echo "enter the directory the script is in "
@@ -565,6 +569,39 @@ init_push_to_github()
     fi    
 }
 
+# uninstall uva-tool
+uninstall()
+{
+    # ask user whether to uninstall
+    loop=true
+    while $loop; do
+        read -n1 -p "Do you really really want to uninstall uva-tool. [y/n]?" answer
+        case $answer in
+            Y | y)
+                echo
+                echo "OK, I got it, Thank you for your using. Gook luck~~"
+                echo "Uninstall starts..."
+                echo "Remove config files..."
+                rm -rf $CONFIG_FILE_NAME $UVA_KEY_FILE $UVA_NODE_CONF_FILE
+                echo "Remove config files is done."
+                echo "If you have set uva-tool to your path, you can delete them manually in your bash profile."
+                echo "Uninstall is done! You can just delete uva-tool folder manually. Fin~~"
+                loop=false
+                ;;
+            N | n)
+                echo
+                echo "Really! Thank you, if you have any advices, plesae feel free to contact me."
+                loop=false
+                ;;
+            *)
+                echo "Error choice, please answer with y or n."
+                ;;
+        esac
+        echo
+    done
+    # exit for uva tool
+    exit 0
+}
 #######################
 # function define end
 #######################
@@ -588,6 +625,13 @@ then
     if [ $# -eq 1 ]
     then
         fetch_stat_from_uva
+        exit 0
+    fi
+elif [ "$1" = "uninstall" ]
+then
+    if [ $# -eq 1 ]
+    then
+        uninstall
         exit 0
     fi
 elif [ $# -lt 2 ] 
