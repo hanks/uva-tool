@@ -440,9 +440,10 @@ register_your_uva_account()
 fetch_stat_from_uva()
 {
    echo "Your are going to fetch your statistics from uva website."
-   register_your_uva_account 
-   echo "Your lastest $STAT_NUM results are:"
-   node $UVA_NODE stat $STAT_NUM 
+   register_your_uva_account
+   TOTAL_STAT_NUM=10 
+   echo "Your lastest $TOTAL_STAT_NUM results are:"
+   node $UVA_NODE stat $TOTAL_STAT_NUM
 }
 
 submit_to_uva()
