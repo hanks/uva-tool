@@ -8,6 +8,7 @@
 #    ./acm_manage.sh r questionID
 #    ./acm_manage.sh d questionID
 #    ./acm_manage.sh s questionID
+#    ./acm_manage.sh s
 #    ./acm_manage.sh h
 #    ./acm_manage.sh help
 #
@@ -15,7 +16,7 @@
 #    1. init acm directory and create source, test, expect files from website for you.
 #    2. run your code with your test data file, and check its correctness with your expect file.
 #    3. debug your code with your test data file.
-#    4. submit your code to uva website using uva-node
+#    4. submit your code to uva website using uva-node and get the judge result
 #
 # Platform:
 #    Linux, Mac OSX, Unix
@@ -179,11 +180,12 @@ print_help()
     echo "Usage: acm_manage.sh [i|r|d|s|h|help] questionID"
     echo "Like: acm_manage.sh i 101"
     echo "Options: These are optional argument"
-    echo " i init acm directory, create directory, source, test file and expect file automatically for you."
-    echo " h|help show help info."
-    echo " r run your code with your test data. And diff output and expect file to check correctness "
-    echo " s submit your code to website, and get the judgement."    
-    echo " d start debug tool (like gdb, lldb) to debug your code."
+    echo " i questinID: init acm directory, create directory, source, test file and expect file automatically for you."
+    echo " r quesitonID: run your code with your test data. And diff output and expect file to check correctness "
+    echo " s questionID: submit your code to website, and get the judgement."
+    echo " d questionID: start debug tool (like gdb, lldb) to debug your code."    
+    echo " s: just fetch stat from uva."
+    echo " h|help: show help info."    
     echo
     echo "When you first run this shell, you should "
     echo "enter the directory the script is in "
@@ -410,9 +412,8 @@ print_output()
     cat $RESULT_FILE_PATH
 }
 
-submit_to_uva()
+register_your_uva_account() 
 {
-    echo "You are going to submit your code to uva website."
     if [ ! -f $UVA_KEY_FILE ]; then
         # if there is no a uva-node key file, means need to login in first
         echo "This is your first time to submit your code to uva using acm manage."
@@ -434,7 +435,20 @@ submit_to_uva()
         echo "Login is successful."
         node $UVA_NODE use uva $UVA_ACCOUNT_NAME
     fi
-    
+}
+
+fetch_stat_from_uva()
+{
+   echo "Your are going to fetch your statistics from uva website."
+   register_your_uva_account 
+   echo "Your lastest $STAT_NUM results are:"
+   node $UVA_NODE stat $STAT_NUM 
+}
+
+submit_to_uva()
+{
+    echo "You are going to submit your code to uva website."
+    register_your_uva_account
     echo "Start to submit your code."
     node $UVA_NODE send $QUESTION_ID $SOURCE_CODE_PATH
 
@@ -442,7 +456,7 @@ submit_to_uva()
     echo "Please wait for about $UVA_WAITING_TIME seconds to get the online judge result..."
     sleep $UVA_WAITING_TIME
     echo "Your lastest $STAT_NUM results are:"
-    node $UVA_NODE stat $STAT_NUM
+    node $UVA_NODE stat $STAT_NUM 
 }
 
 judge_result()
@@ -543,6 +557,13 @@ elif [ "$1" = "help" ]
 then
     print_help
     exit 0
+elif [ "$1" = "s" ]
+then
+    if [ $# -eq 1 ]
+    then
+        fetch_stat_from_uva
+        exit 0
+    fi
 elif [ $# -lt 2 ] 
 then
     print_help
