@@ -469,6 +469,7 @@ judge_result()
     git diff --no-index --color "$RESULT_FILE_PATH" "$EXPECT_FILE_PATH" > $DIFF_RESULT_FILE
     # test whether diff file is empty
     if test -s $DIFF_RESULT_FILE; then
+        # if no empty, means wrong
         cat $DIFF_RESULT_FILE
         echo "Wrong answer. Try again."
     else
