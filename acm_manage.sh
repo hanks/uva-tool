@@ -553,15 +553,15 @@ init_push_to_github()
     if [ $? -eq 0 ]
     then
         git commit -m "start $QUESTION_NAME [auto commit]"
-        git push > /dev/null 2>&1
+        git push origin master > /dev/null 2>&1
         if [ $? -eq 0 ]
         then
             echo "Sync github is done. Have fun."    
         else
-            echo "You have not set this repository to your github."
+            echo "You have not set this repository to your github!! But it is ok. Have fun."
         fi    
     else
-        echo "You do not use git!! But it is ok."
+        echo "You do not use git!! But it is ok. Have fun."
     fi    
 }
 
