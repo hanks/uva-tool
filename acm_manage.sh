@@ -365,7 +365,7 @@ compile_code()
 {
     echo "Compile start."
     echo "Clear old executable file."
-    rm $EXECUTABLE_FILE_PATH > /dev/null
+    rm -f $EXECUTABLE_FILE_PATH
     $COMPILE_COMMAND $DEBUG_OPTION $SOURCE_CODE_PATH $OPTIMIZE_OPTION -o $EXECUTABLE_FILE_PATH
     echo "Compile end."
 }
@@ -376,7 +376,7 @@ run_code()
     # result confict with old one
     echo
     echo "Clear old result file."
-    rm $RESULT_FILE_PATH > /dev/null
+    rm -f $RESULT_FILE_PATH
 
     # create a new empty result file
     touch $RESULT_FILE_PATH
