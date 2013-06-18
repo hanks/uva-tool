@@ -54,13 +54,19 @@ def get_question_name(question_num_str, acm_root):
     return get_title_from_soup(soup, question_num_str)
     
 def get_input_data(soup):
-    input_raw = soup.findAll("pre")[-2].string
-    input_clean = input_raw.strip()
+    try:
+        input_raw = soup.findAll("pre")[-2].string
+        input_clean = input_raw.strip()
+    except IndexError:
+        input_clean = ""
     return input_clean
 
 def get_output_data(soup):
-    output_raw = soup.findAll("pre")[-1].string
-    output_clean = output_raw.lstrip()
+    try:
+        output_raw = soup.findAll("pre")[-1].string
+        output_clean = output_raw.lstrip()
+    except AttributeError:
+        output_clean = ""
     return output_clean
 
 def download_img(soup, path):
