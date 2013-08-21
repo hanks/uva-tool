@@ -30,7 +30,10 @@ def get_latex_from_url(url):
     return parser.parse_html(response.read())
 
 def get_title_from_soup(soup, question_num_str):
-    title_raw = soup.title.string
+    if soup.title is not None:
+        title_raw = soup.title.string
+    else:
+        return question_num_str
     index = title_raw.find(':')
     if index != -1:
         title_raw = title_raw[index + 2:]
